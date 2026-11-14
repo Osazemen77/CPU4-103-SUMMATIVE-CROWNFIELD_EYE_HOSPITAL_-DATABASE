@@ -1,0 +1,95 @@
+Trigger
+
+use crownfield_eye_hospital;
+DELIMITER //
+
+CREATE PROCEDURE GetPatientPrescription
+(
+    IN p_PatientID INT
+)
+
+BEGIN
+
+    SELECT
+        p.PatientName,
+        d.DoctorName,
+        m.MedicationName
+    FROM Patient p
+    INNER JOIN Prescription pr
+        ON p.PatientID = pr.PatientID
+    INNER JOIN Doctor d
+        ON pr.DoctorID = d.DoctorID
+    INNER JOIN Medication m
+        ON pr.MedicationID = m.MedicationID
+    WHERE p.PatientID = p_PatientID;
+
+END //
+
+DELIMITER ;
+
+LEFTJOIN
+
+
+use crownfield_eye_hospital;
+SELECT
+    d.DoctorID,
+    d.DoctorName,
+    d.Specialty,
+    pr.PrescriptionID
+FROM Doctor d
+LEFT JOIN Prescription pr
+    ON d.DoctorID = pr.DoctorID;
+
+INNERJOIN
+
+use crownfield_eye_hospital;
+SELECT
+    p.PatientName,
+    d.DoctorName,
+    m.MedicationName
+FROM Patient p
+INNER JOIN Prescription pr
+    ON p.PatientID = pr.PatientID
+INNER JOIN Doctor 
+    ON pr.DoctorID = d.DoctorID
+INNER JOIN Medication m
+    ON pr.MedicationID = m.MedicationID;
+
+
+JOIN
+
+use crownfield_eye_hospital;
+SELECT
+    PatientName,
+    RoomNumber
+FROM Patient
+WHERE RoomNumber IN
+(
+    SELECT RoomNumber
+    FROM Room
+    WHERE RoomRate > 250
+);
+
+GROUPBY
+use crownfield_eye_hospital;
+SELECT 
+
+    d.DoctorName, 
+
+    COUNT(pr.PrescriptionID) AS TotalPrescriptions 
+
+FROM Doctor d 
+
+LEFT JOIN Prescription pr 
+
+    ON d.DoctorID = pr.DoctorID 
+
+GROUP BY d.DoctorID, d.DoctorName; 
+
+
+
+
+
+
+
+
