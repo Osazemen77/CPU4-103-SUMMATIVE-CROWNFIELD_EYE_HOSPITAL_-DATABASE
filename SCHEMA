@@ -1,0 +1,241 @@
+USE crownfield_eye_hospital;
+  
+CREATE TABLE Department (
+    DepartmentID INT AUTO_INCREMENT,
+    DepartmentName VARCHAR(100) NOT NULL,
+
+    PRIMARY KEY (DepartmentID)
+);
+
+  TABLE: Room
+  PRIMARY KEY: RoomNumber
+
+
+CREATE TABLE Room (
+    RoomNumber INT,
+    RoomRate DECIMAL(10,2) NOT NULL,
+
+    PRIMARY KEY (RoomNumber)
+);
+
+
+  TABLE: Patient
+
+  PRIMARY KEY:
+      PatientID
+
+  FOREIGN KEYS:
+      RoomNumber → Room(RoomNumber)
+      DepartmentID → Department(DepartmentID)
+
+
+CREATE TABLE Patient (
+    PatientID INT AUTO_INCREMENT,
+    PatientName VARCHAR(100) NOT NULL,
+    RoomNumber INT NOT NULL,
+    DepartmentID INT NOT NULL,
+
+    PRIMARY KEY (PatientID),
+
+    CONSTRAINT FK_Patient_Room
+        FOREIGN KEY (RoomNumber)
+        REFERENCES Room(RoomNumber),
+
+    CONSTRAINT FK_Patient_Department
+        FOREIGN KEY (DepartmentID)
+        REFERENCES Department(DepartmentID)
+);
+
+
+  TABLE: Doctor
+
+  PRIMARY KEY:
+      DoctorID
+
+
+CREATE TABLE Doctor (
+    DoctorID INT AUTO_INCREMENT,
+    DoctorName VARCHAR(100) NOT NULL,
+    Specialty VARCHAR(100) NOT NULL,
+
+    PRIMARY KEY (DoctorID)
+);
+
+
+  TABLE: Medication
+
+  PRIMARY KEY:
+      MedicationID
+
+
+CREATE TABLE Medication (
+    MedicationID INT AUTO_INCREMENT,
+    MedicationName VARCHAR(100) NOT NULL,
+
+    PRIMARY KEY (MedicationID)
+);
+
+
+  TABLE: Prescription
+
+  PRIMARY KEY:
+      PrescriptionID
+
+  FOREIGN KEYS:
+      PatientID → Patient(PatientID)
+      DoctorID → Doctor(DoctorID)
+      MedicationID → Medication(MedicationID)
+
+
+CREATE TABLE Prescription (
+    PrescriptionID INT AUTO_INCREMENT,
+    PatientID INT NOT NULL,
+    DoctorID INT NOT NULL,
+    MedicationID INT NOT NULL,
+
+    PRIMARY KEY (PrescriptionID),
+
+    CONSTRAINT FK_Prescription_Patient
+        FOREIGN KEY (PatientID)
+        REFERENCES Patient(PatientID),
+
+    CONSTRAINT FK_Prescription_Doctor
+        FOREIGN KEY (DoctorID)
+        REFERENCES Doctor(DoctorID),
+
+    CONSTRAINT FK_Prescription_Medication
+        FOREIGN KEY (MedicationID)
+        REFERENCES Medication(MedicationID)
+);
+
+  INSERT DATA - DEPARTMENT
+
+INSERT INTO Department (DepartmentName)
+VALUES
+('Cardiology'),
+('Neurology'),
+('Orthopedics'),
+('Oncology'),
+('Paediatrics'),
+('Dermatology'),
+('Radiology'),
+('Gastroenterology'),
+('Urology'),
+('Endocrinology'),
+('Ophthalmology'),
+('Psychiatry'),
+('ENT'),
+('Nephrology'),
+('Emergency Medicine');
+
+
+  INSERT DATA - ROOM
+
+
+INSERT INTO Room (RoomNumber, RoomRate)
+VALUES
+(101,150.00),
+(102,175.00),
+(103,180.00),
+(104,190.00),
+(105,200.00),
+(106,210.00),
+(107,220.00),
+(108,230.00),
+(109,240.00),
+(110,250.00),
+(201,260.00),
+(202,270.00),
+(203,280.00),
+(204,290.00),
+(205,300.00);
+
+
+  INSERT DATA - PATIENT
+
+
+INSERT INTO Patient
+(PatientName, RoomNumber, DepartmentID)
+VALUES
+('John Smith',101,1),
+('Mary Brown',102,2),
+('Ahmed Hassan',103,3),
+('Sarah Johnson',104,4),
+('David Wilson',105,5),
+('Fatima Ali',106,6),
+('Michael Taylor',107,7),
+('Aisha Mohammed',108,8),
+('James Anderson',109,9),
+('Grace Thomas',110,10),
+('Peter White',201,11),
+('Sophia Green',202,12),
+('Daniel Harris',203,13),
+('Olivia Walker',204,14),
+('Benjamin Scott',205,15);
+
+
+  INSERT DATA - DOCTOR
+
+
+INSERT INTO Doctor
+(DoctorName, Specialty)
+VALUES
+('Dr James Carter','Cardiology'),
+('Dr Emma Wilson','Neurology'),
+('Dr David Lee','Orthopedics'),
+('Dr Olivia Brown','Oncology'),
+('Dr Noah Taylor','Paediatrics'),
+('Dr Liam Green','Dermatology'),
+('Dr Sophia White','Radiology'),
+('Dr Ethan Hall','Gastroenterology'),
+('Dr Ava King','Urology'),
+('Dr Mason Wright','Endocrinology'),
+('Dr Isabella Jones','Ophthalmology'),
+('Dr Lucas Clark','Psychiatry'),
+('Dr Mia Lewis','ENT'),
+('Dr Henry Young','Nephrology'),
+('Dr Amelia Baker','Emergency Medicine');
+
+
+  INSERT DATA - MEDICATION
+
+
+INSERT INTO Medication
+(MedicationName)
+VALUES
+('Aspirin'),
+('Ibuprofen'),
+('Paracetamol'),
+('Amoxicillin'),
+('Metformin'),
+('Atorvastatin'),
+('Omeprazole'),
+('Salbutamol'),
+('Insulin'),
+('Prednisolone'),
+('Lisinopril'),
+('Warfarin'),
+('Codeine'),
+('Ciprofloxacin'),
+('Gabapentin');
+
+  INSERT DATA - PRESCRIPTION
+
+INSERT INTO Prescription
+(PatientID, DoctorID, MedicationID)
+VALUES
+(1,1,1),
+(2,2,2),
+(3,3,3),
+(4,4,4),
+(5,5,5),
+(6,6,6),
+(7,7,7),
+(8,8,8),
+(9,9,9),
+(10,10,10),
+(11,11,11),
+(12,12,12),
+(13,13,13),
+(14,14,14),
+(15,15,15);
